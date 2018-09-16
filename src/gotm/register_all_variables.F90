@@ -355,6 +355,13 @@
 !BOC
    LEVEL2 'register_turbulence_variables()'
    call fm%register('num', 'm2/s', 'turbulent diffusivity of momentum', standard_name='??', dimensions=(/id_dim_zi/), data1d=num(0:nlev),category='turbulence')
+
+   !  turbulent eddy coefficient for momentum flux down Stokes gradient
+   !  in second moment closures with Craik-Leibovich vortex force in the
+   !  algebraic Reynolds stress and flux models.
+   !  Zhihua Zheng, 20180916
+   call fm%register('nucl', 'm2/s', 'Craik-Leibovich turbulent diffusivity of momentum', standard_name='??', dimensions=(/id_dim_zi/), data1d=nucl(0:nlev),category='turbulence')
+
    call fm%register('nuh', 'm2/s', 'turbulent diffusivity of heat', standard_name='??', dimensions=(/id_dim_zi/), data1d=nuh(0:nlev),category='turbulence')
    call fm%register('nus', 'm2/s', 'turbulent diffusivity of salt', standard_name='??', dimensions=(/id_dim_zi/), data1d=nus(0:nlev),category='turbulence')
    call fm%register('gamu', 'm2/s2', 'non-local flux of u-momentum', standard_name='??', dimensions=(/id_dim_zi/), data1d=gamu(0:nlev),category='turbulence')
