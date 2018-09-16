@@ -78,7 +78,7 @@
 !
 ! !USES:
    use meanflow,     only: depth0,h,u,v,z,S,T,buoy
-   use turbulence,   only: num,nuh,tke,eps,L
+   use turbulence,   only: num,nucl,nuh,tke,eps,L
    use turbulence,   only: kb,epsb
    use observations, only: tprof,sprof,uprof,vprof,epsprof
 !#ifdef SEDIMENT
@@ -120,13 +120,13 @@
       write(unit,114) z(i),u(i),v(i),T(i),S(i),buoy(i)
    end do
 
-   write(unit,113) 'z','num','nuh','k','eps','L','kb','epsb'
+   write(unit,113) 'z','num','nucl','nuh','k','eps','L','kb','epsb'
    zz(1)=-depth0+h(1)
    do i=2,nlev
       zz(i)=zz(i-1)+h(i)
    end do
    do i=nlev-1,1,-1
-      write(unit,115) zz(i),num(i),nuh(i),tke(i),eps(i),L(i),kb(i),epsb(i)
+      write(unit,115) zz(i),num(i),nucl(i),nuh(i),tke(i),eps(i),L(i),kb(i),epsb(i)
    end do
 
    write(unit,113) 'z','Tobs','Sobs','Uobs','Vobs','epsobs'

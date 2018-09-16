@@ -90,7 +90,7 @@
    integer, private          :: rad_id
    integer, private          :: temp_id,temp_obs_id
    integer, private          :: salt_id,salt_obs_id
-   integer, private          :: num_id,nuh_id,nus_id
+   integer, private          :: num_id,nucl_id,nuh_id,nus_id
    integer, private          :: gamu_id,gamv_id,gamh_id,gams_id
    integer, private          :: SS_id,SS_obs_id
    integer, private          :: NN_id,NN_obs_id
@@ -327,6 +327,14 @@
    end if
    iret = nf90_def_var(ncid,'num',NCDF_FLOAT_PRECISION,dim4d,num_id)
    call check_err(iret)
+
+   !  turbulent eddy coefficient for momentum flux down Stokes gradient
+   !  in second moment closures with Craik-Leibovich vortex force in the
+   !  algebraic Reynolds stress and flux models.
+   !  Zhihua Zheng, 20180916
+   iret = nf90_def_var(ncid,'nucl',NCDF_FLOAT_PRECISION,dim4d,nucl_id)
+   call check_err(iret)
+
    iret = nf90_def_var(ncid,'nuh',NCDF_FLOAT_PRECISION,dim4d,nuh_id)
    call check_err(iret)
    iret = nf90_def_var(ncid,'nus',NCDF_FLOAT_PRECISION,dim4d,nus_id)
@@ -502,6 +510,13 @@
 
 !  x,y,zi,t
    iret = set_attributes(ncid,num_id,units='m2/s',long_name='viscosity')
+
+   !  turbulent eddy coefficient for momentum flux down Stokes gradient
+   !  in second moment closures with Craik-Leibovich vortex force in the
+   !  algebraic Reynolds stress and flux models.
+   !  Zhihua Zheng, 20180916
+   iret = set_attributes(ncid,nucl_id,units='m2/s',long_name='Craik-Leibovich viscosity')
+
    iret = set_attributes(ncid,nuh_id,units='m2/s',long_name='heat diffusivity')
    iret = set_attributes(ncid,nus_id,units='m2/s',long_name='salt diffusivity')
    iret = set_attributes(ncid,gamu_id,units='m2/s2',long_name='non-local x-momentum flux')
@@ -587,7 +602,7 @@
    use meanflow,     only: depth0,u_taub,u_taus,rho_0,gravity
    use meanflow,     only: h,u,v,z,S,rad,T,buoy,SS,NN
    use turbulence,   only: P,B,Pb,PS
-   use turbulence,   only: num,nuh,nus
+   use turbulence,   only: num,nucl,nuh,nus
    use turbulence,   only: gamu,gamv,gamh,gams
    use turbulence,   only: tke,kb,eps,epsb,L,uu,vv,ww
    use kpp,          only: zsbl,zbbl
@@ -750,6 +765,13 @@
 
 !  Time varying profile data : x,y,zi,t
    iret = store_data(ncid,num_id,XYZT_SHAPE,nlev,array=num)
+
+   !  turbulent eddy coefficient for momentum flux down Stokes gradient
+   !  in second moment closures with Craik-Leibovich vortex force in the
+   !  algebraic Reynolds stress and flux models.
+   !  Zhihua Zheng, 20180916
+   iret = store_data(ncid,nucl_id,XYZT_SHAPE,nlev,array=nucl)
+
    iret = store_data(ncid,nuh_id,XYZT_SHAPE,nlev,array=nuh)
    iret = store_data(ncid,nus_id,XYZT_SHAPE,nlev,array=nus)
    iret = store_data(ncid,gamu_id,XYZT_SHAPE,nlev,array=gamu)

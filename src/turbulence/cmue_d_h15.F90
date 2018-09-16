@@ -1,7 +1,7 @@
 #include"cppdefs.h"
 !-----------------------------------------------------------------------
 !
-! !ROUTINE: The Langmuir turbulence quasi-equilibrium stability functions  after Harcourt (2015)\label{sec:cmueDH15}
+! !ROUTINE: The Langmuir turbulence quasi-equilibrium stability functions after Harcourt (2015)\label{sec:cmueDH15}
 !
 ! !INTERFACE:
    subroutine cmue_d_h15(nlev)
@@ -56,17 +56,17 @@
 !
 ! !REVISION HISTORY:
 !  Original author(s): Lars Umlauf
-!  Converted by Ramsey Harcourt, last updated 31 July 2018.  This version uses the Harcourt(2015) 
-!  stability functions from the quasi-equilibrium Second Moment closure (SMC) with Craik-Leibovich 
-!  terms, but it has been further modified by replacing the crude limiters applied 
+!  Converted by Ramsey Harcourt, last updated 31 July 2018.  This version uses the Harcourt(2015)
+!  stability functions from the quasi-equilibrium Second Moment closure (SMC) with Craik-Leibovich
+!  terms, but it has been further modified by replacing the crude limiters applied
 !  individually to Gh, Gv and Gs in Harcourt(2015) under unstable/positive production conditions
 !  with a combinations of limitations on (L/q)^2 applied consistently across Gm, Gs, Gh, Gv,
 !  as a function of Gh and Gv input to the ARSM. This ARSM also applies the Galperin limit to
-!  L going into the ARSM (algebraic) diagnosis of Sm, Sh, Ss, regardless of whether it/s 
+!  L going into the ARSM (algebraic) diagnosis of Sm, Sh, Ss, regardless of whether it/s
 !  being enforced within the dyanamic model.
 !
 !  Recomend running with e3=5 & length.lim=false, but e3=1.2 & length.lim=true is similar
-!  When length.lim=false, length scale or at least L/q is still limited within the ARSM for 
+!  When length.lim=false, length scale or at least L/q is still limited within the ARSM for
 !  Stability fcns cmue1,cmue2,cmue3. length.lim=false allows the elevated length scale within
 !  the mixed layer to impact the transition zone, while restraining the Stability functions
 !  to the stability-limited length scale regime.
@@ -154,9 +154,9 @@
         endif
 
 ! Limitation on the unstable side
-! Before SPF: Limit to less than l/q corresponding to equilibrium 
+! Before SPF: Limit to less than l/q corresponding to equilibrium
 ! tke eqn soln for (l/q) in limit of gs=gm=0
-! 
+!
 
 ! Find ratio to rescale to critical Sh & l/q with offset of -Gvoff and -Ghoff from critical to equilibrium curve for Gm=Gs=0
 ! Substituting Gh=R*Gh+Ghoff, Gv=R*Gv+Gvoff to find R such that R*Gh, R*Gv are offset by [-Ghoff, -Gvoff] from critical [Gh, Gv]
@@ -181,7 +181,7 @@
 
 ! Solve for ratio rescaling to critical a*r^2+b*r+c=0; c=1, b=tmp1, a=tmp2
 ! Check determinant
-    
+
         tmp3=tmp1*tmp1-4.D0*tmp2*tmp4
 
 ! We need the smallest positive root R
@@ -203,14 +203,14 @@
 ! Apply SPF *after* limiting l/q to equilibrium in limit of gm=gs=0
 ! because tke equilibrium does not involve the near-surface pressure-strain
 ! terms effected by SPF. Apply SPF *before* the limitation on monotonicity of
-! Sh/Gh because that might actually be affected by pressure-strain terms. 
+! Sh/Gh because that might actually be affected by pressure-strain terms.
         Gv =  Gv*SPF(i)
         Gs =  Gs*SPF(i)**2.
 
-! Second limitation after Umlauf & Burchard (2005), Eq 47, approximating -d( Sh/Gh )/d(Gh) > 0  
+! Second limitation after Umlauf & Burchard (2005), Eq 47, approximating -d( Sh/Gh )/d(Gh) > 0
          if(Gh.gt._ZERO_) then
 
-! This curve is approximated on the Gs=0 plane using the critical Den{Sh}=0 curve but with 
+! This curve is approximated on the Gs=0 plane using the critical Den{Sh}=0 curve but with
 ! Sh(Gh->2*Gh) when Gh>0, no offsets needed. Bit of a coincidence that hasn't yet been worked out.
 ! tmp1 is coefficient (b) of linear R with contributions from offsets in terms ~Gx*Gy
         tmp1= 2.D0*(h15_Shdah+h15_Shdbh)*Gh+(h15_Shdav+h15_Shdv)*Gv
@@ -222,7 +222,7 @@
 
 ! Solve for ratio rescaling to critical a*r^2+b*r+c=0; c=1, b=tmp1, a=tmp2
 ! Check determinant
-  
+
         tmp3=tmp1*tmp1-4.D0*tmp2*tmp4
 
         if ((tmp3.ge._ZERO_).and.(tmp2.lt._ZERO_)) then

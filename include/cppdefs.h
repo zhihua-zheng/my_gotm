@@ -90,3 +90,7 @@
 ! use CVMix for KPP
 ! Qing Li, 20180126
 #define KPP_CVMIX
+
+
+! Zhihua Zheng, 20180916
+! #define EXTRA_OUTPUT
